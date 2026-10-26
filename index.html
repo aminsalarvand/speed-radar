@@ -1,76 +1,1236 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#070b14">
+<title>NETRADAR | Internet Diagnostics</title>
 
-    <title>HTML</title>
+<style>
+:root {
+  --bg: #070b14;
+  --panel: #0d1625;
+  --border: #22334b;
+  --text: #eaf4ff;
+  --muted: #8295af;
+  --cyan: #50e6ff;
+  --blue: #688cff;
+  --green: #5cf2b2;
+  --orange: #ffbd69;
+  --red: #ff6b86;
+}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+* { box-sizing: border-box; }
 
-        body {
-            height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background: #0f172a;
-            font-family: Arial, sans-serif;
-            overflow: hidden;
-        }
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at top, #142b46, var(--bg) 60%);
+  color: var(--text);
+  font-family: Inter, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+  min-height: 100vh;
+}
 
-        .container {
-            text-align: center;
-        }
+button { font: inherit; cursor: pointer; }
 
-        .html-text {
-            font-size: 120px;
-            font-weight: 900;
-            letter-spacing: 15px;
-            color: white;
-            text-shadow:
-                0 0 10px #ff6b35,
-                0 0 30px #ff6b35,
-                0 0 60px #ff6b35;
-            animation: glow 2s infinite alternate;
-        }
+.container {
+  width: min(1200px, 94%);
+  margin: auto;
+  padding: 26px 0 35px;
+}
 
-        .subtitle {
-            margin-top: 20px;
-            color: #94a3b8;
-            font-size: 20px;
-            letter-spacing: 5px;
-        }
+header, .header-right, .brand, .section-head,
+.metric-head, .footer, .radar-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+}
 
-        @keyframes glow {
-            from {
-                transform: scale(1);
-                text-shadow:
-                    0 0 10px #ff6b35,
-                    0 0 30px #ff6b35;
-            }
+header { margin-bottom: 25px; }
 
-            to {
-                transform: scale(1.08);
-                text-shadow:
-                    0 0 20px #ff6b35,
-                    0 0 50px #ff6b35,
-                    0 0 90px #ff6b35;
-            }
-        }
-    </style>
+.brand { justify-content: flex-start; }
+
+.logo {
+  width: 43px;
+  height: 43px;
+  border: 1px solid #316079;
+  border-radius: 13px;
+  display: grid;
+  place-items: center;
+  color: var(--cyan);
+  font-size: 24px;
+  background: #102237;
+}
+
+.brand-name {
+  font-size: 17px;
+  font-weight: 900;
+  letter-spacing: 3px;
+}
+
+.brand-name span { color: var(--cyan); }
+
+.subtitle {
+  color: var(--muted);
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.status-pill {
+  border: 1px solid var(--border);
+  border-radius: 30px;
+  padding: 8px 12px;
+  font-size: 11px;
+  color: var(--muted);
+}
+
+.dot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  background: var(--green);
+  border-radius: 50%;
+  margin-right: 7px;
+  box-shadow: 0 0 12px var(--green);
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.25fr .75fr;
+  gap: 18px;
+}
+
+.panel {
+  background: linear-gradient(145deg, #101c2e, #0a111e);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px #0003;
+}
+
+.radar-panel { padding: 24px; }
+
+.eyebrow {
+  color: var(--cyan);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+h1 {
+  font-size: clamp(27px, 4vw, 39px);
+  letter-spacing: -1.5px;
+  line-height: 1.15;
+  margin: 10px 0;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.radar-stage {
+  display: grid;
+  place-items: center;
+  padding: 20px 0;
+}
+
+.radar {
+  width: min(100%, 370px);
+  aspect-ratio: 1;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #28566a;
+  border-radius: 50%;
+  background: radial-gradient(circle, #10313d, #0b1c2a 60%, #09121e);
+  box-shadow: inset 0 0 50px #50e6ff10, 0 0 35px #50e6ff08;
+}
+
+.radar::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(transparent 49.8%, #36708580 50%, transparent 50.2%),
+    linear-gradient(90deg, transparent 49.8%, #36708580 50%, transparent 50.2%);
+}
+
+.ring {
+  position: absolute;
+  inset: 12%;
+  border: 1px solid #39708066;
+  border-radius: 50%;
+}
+
+.ring.two { inset: 25%; }
+.ring.three { inset: 38%; }
+.ring.four { inset: 49%; }
+
+.sweep {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(
+    from 0deg,
+    transparent 0deg,
+    transparent 285deg,
+    #50e6ff08 315deg,
+    #50e6ff40 345deg,
+    #50e6ff90 360deg
+  );
+  animation: rotate 5s linear infinite;
+}
+
+.radar.testing .sweep { animation-duration: 1.5s; }
+
+.blip {
+  position: absolute;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  box-shadow: 0 0 12px var(--green);
+  animation: pulse 2s infinite;
+}
+
+.blip.one { top: 28%; left: 63%; }
+.blip.two { top: 45%; left: 30%; animation-delay: .6s; }
+.blip.three { top: 69%; left: 68%; animation-delay: 1s; }
+.blip.four { top: 74%; left: 43%; animation-delay: 1.4s; }
+
+.radar-center {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.center-icon {
+  font-size: 30px;
+  color: var(--cyan);
+  margin-bottom: 12px;
+  text-shadow: 0 0 20px var(--cyan);
+}
+
+.radar-status {
+  color: var(--cyan);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 2px;
+}
+
+.radar-caption {
+  color: var(--muted);
+  font-size: 11px;
+  margin-top: 7px;
+}
+
+.radar-label {
+  position: absolute;
+  color: #6c91a4;
+  font-size: 9px;
+}
+
+.north { top: 7%; left: 49%; }
+.east { right: 7%; top: 49%; }
+.south { bottom: 7%; left: 49%; }
+.west { left: 7%; top: 49%; }
+
+.radar-footer {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.radar-footer strong { color: var(--text); }
+
+.side {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.controls, .connection { padding: 22px; }
+
+h2 {
+  font-size: 15px;
+  margin: 8px 0;
+}
+
+.muted {
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+.primary {
+  width: 100%;
+  margin-top: 12px;
+  padding: 15px;
+  border: 0;
+  border-radius: 11px;
+  background: linear-gradient(100deg, var(--cyan), #7aa8ff);
+  color: #07121e;
+  font-weight: 900;
+  letter-spacing: .5px;
+}
+
+.primary:hover { filter: brightness(1.1); }
+.primary:disabled { opacity: .6; cursor: wait; }
+
+.button-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 9px;
+  margin-top: 10px;
+}
+
+.secondary {
+  border: 1px solid var(--border);
+  background: #111e30;
+  color: var(--text);
+  padding: 10px;
+  border-radius: 9px;
+  font-size: 11px;
+}
+
+.secondary:hover { border-color: var(--cyan); }
+
+.progress-meta {
+  display: flex;
+  justify-content: space-between;
+  color: var(--muted);
+  font-size: 10px;
+  margin: 20px 0 8px;
+}
+
+.track {
+  height: 4px;
+  background: #203047;
+  border-radius: 9px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  width: 0;
+  height: 100%;
+  background: linear-gradient(90deg, var(--cyan), var(--blue));
+  transition: width .3s;
+}
+
+.phases {
+  display: flex;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.phase {
+  flex: 1;
+  text-align: center;
+  padding: 7px 2px;
+  font-size: 9px;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  color: var(--muted);
+}
+
+.phase.active {
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.phase.done {
+  color: var(--green);
+  border-color: var(--green);
+}
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 10px 0;
+  border-bottom: 1px solid #1d2a3c;
+  font-size: 11px;
+}
+
+.info-row:last-child { border: 0; }
+.info-row span { color: var(--muted); }
+.info-row strong { text-align: right; overflow-wrap: anywhere; }
+
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 18px;
+}
+
+.metric { padding: 19px; min-width: 0; }
+
+.metric-head {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+.metric-icon { color: var(--cyan); font-size: 19px; }
+
+.metric-value {
+  font-size: clamp(25px, 3vw, 36px);
+  font-weight: 800;
+  letter-spacing: -1px;
+  margin-top: 16px;
+  white-space: nowrap;
+}
+
+.metric-value small {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 0;
+  font-weight: 500;
+}
+
+.metric-foot {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+}
+
+.lower {
+  display: grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap: 18px;
+  margin-top: 18px;
+}
+
+.chart-panel, .history-panel { padding: 22px; min-width: 0; }
+
+.section-head { margin-bottom: 18px; }
+
+.legend {
+  color: var(--muted);
+  font-size: 10px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: 190px;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px;
+  background: #0a1320;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+.history-date { color: var(--muted); font-size: 10px; }
+.history-speed { font-size: 12px; font-weight: 800; margin-top: 4px; }
+.history-detail { text-align: right; color: var(--muted); font-size: 10px; }
+.history-detail strong { display: block; color: var(--text); font-size: 12px; }
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 25px 8px;
+  border: 1px dashed var(--border);
+  border-radius: 10px;
+  font-size: 12px;
+}
+
+.footer {
+  margin-top: 23px;
+  color: #71839b;
+  font-size: 10px;
+}
+
+.footer a { color: #8ba6c6; text-decoration: none; }
+
+.notice {
+  color: var(--muted);
+  font-size: 10px;
+  line-height: 1.7;
+  margin-top: 14px;
+}
+
+@keyframes rotate { to { transform: rotate(360deg); } }
+
+@keyframes pulse {
+  0%, 100% { opacity: .25; transform: scale(.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+
+@media (max-width: 900px) {
+  .hero, .lower { grid-template-columns: 1fr; }
+  .side { display: grid; grid-template-columns: 1fr 1fr; }
+  .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .container { width: 94%; padding-top: 16px; }
+  .side { grid-template-columns: 1fr; }
+  .radar-panel, .controls, .connection,
+  .chart-panel, .history-panel { padding: 16px; }
+  .header-right .status-pill:last-child { display: none; }
+  .metric { padding: 13px; }
+  .metric-value { font-size: 28px; }
+  .footer { align-items: flex-start; flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition: none !important;
+  }
+}
+</style>
 </head>
 
 <body>
+<div class="container">
 
-    <div class="container">
-        <div class="html-text">HTML</div>
-        <div class="subtitle">HYPER TEXT MARKUP LANGUAGE</div>
+<header>
+  <div class="brand">
+    <div class="logo">⌁</div>
+    <div>
+      <div class="brand-name">NET<span>RADAR</span></div>
+      <div class="subtitle">Internet Performance Monitor</div>
+    </div>
+  </div>
+
+  <div class="header-right">
+    <span class="status-pill"><i class="dot" id="onlineDot"></i><span id="onlineText">Checking...</span></span>
+    <span class="status-pill" id="clock">--:--:--</span>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+
+  <div class="panel radar-panel">
+    <div class="eyebrow">Network diagnostics / 01</div>
+    <h1>Your connection,<br>in real time.</h1>
+    <p class="description">
+      Analyze your internet performance with real network requests,
+      live throughput measurements, and latency diagnostics.
+    </p>
+
+    <div class="radar-stage">
+      <div class="radar" id="radar">
+        <div class="ring"></div>
+        <div class="ring two"></div>
+        <div class="ring three"></div>
+        <div class="ring four"></div>
+        <div class="sweep"></div>
+
+        <i class="blip one"></i>
+        <i class="blip two"></i>
+        <i class="blip three"></i>
+        <i class="blip four"></i>
+
+        <span class="radar-label north">N</span>
+        <span class="radar-label east">E</span>
+        <span class="radar-label south">S</span>
+        <span class="radar-label west">W</span>
+
+        <div class="radar-center">
+          <div>
+            <div class="center-icon">⌁</div>
+            <div class="radar-status" id="radarStatus">SYSTEM READY</div>
+            <div class="radar-caption" id="radarCaption">Ready to scan your network</div>
+          </div>
+        </div>
+      </div>
     </div>
 
+    <div class="radar-footer">
+      <span><strong id="radarFoot">Awaiting test</strong></span>
+      <span>ENGINE: JAVASCRIPT</span>
+    </div>
+  </div>
+
+  <aside class="side">
+
+    <div class="panel controls">
+      <div class="eyebrow">Control center / 02</div>
+      <h2>Run diagnostics</h2>
+      <p class="muted">Test your current internet connection.</p>
+
+      <button class="primary" id="startBtn">▶ START SPEED TEST</button>
+
+      <div class="button-row">
+        <button class="secondary" id="pingBtn">↗ Ping only</button>
+        <button class="secondary" id="resetBtn">↺ Reset results</button>
+      </div>
+
+      <div class="progress-meta">
+        <span id="progressLabel">TEST PROGRESS</span>
+        <span id="progressPct">0%</span>
+      </div>
+      <div class="track">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="phases">
+        <div class="phase" id="phasePing">01 PING</div>
+        <div class="phase" id="phaseDown">02 DOWNLOAD</div>
+        <div class="phase" id="phaseUp">03 UPLOAD</div>
+      </div>
+
+      <p class="notice">
+        Tests use Cloudflare's public speed-test endpoint.
+        Data usage may apply. Results depend on server and network conditions.
+      </p>
+    </div>
+
+    <div class="panel connection">
+      <h2>CONNECTION DETAILS</h2>
+      <div class="info-row"><span>Network status</span><strong id="networkStatus">Detecting...</strong></div>
+      <div class="info-row"><span>Connection type</span><strong id="connectionType">—</strong></div>
+      <div class="info-row"><span>Effective type</span><strong id="effectiveType">—</strong></div>
+      <div class="info-row"><span>Browser downlink</span><strong id="downlinkEstimate">—</strong></div>
+      <div class="info-row"><span>Data saver</span><strong id="saveData">—</strong></div>
+      <div class="info-row"><span>Last test</span><strong id="lastTest">Never</strong></div>
+    </div>
+
+  </aside>
+</section>
+
+<section class="metrics">
+
+  <article class="panel metric">
+    <div class="metric-head"><span>DOWNLOAD SPEED</span><span class="metric-icon">↓</span></div>
+    <div class="metric-value" id="downloadValue">— <small>Mbps</small></div>
+    <div class="metric-foot" id="downloadFoot">Waiting for test</div>
+  </article>
+
+  <article class="panel metric">
+    <div class="metric-head"><span>UPLOAD SPEED</span><span class="metric-icon">↑</span></div>
+    <div class="metric-value" id="uploadValue">— <small>Mbps</small></div>
+    <div class="metric-foot" id="uploadFoot">Waiting for test</div>
+  </article>
+
+  <article class="panel metric">
+    <div class="metric-head"><span>LATENCY / PING</span><span class="metric-icon">⌁</span></div>
+    <div class="metric-value" id="pingValue">— <small>ms</small></div>
+    <div class="metric-foot" id="pingFoot">Waiting for test</div>
+  </article>
+
+  <article class="panel metric">
+    <div class="metric-head"><span>JITTER</span><span class="metric-icon">〰</span></div>
+    <div class="metric-value" id="jitterValue">— <small>ms</small></div>
+    <div class="metric-foot" id="jitterFoot">Waiting for test</div>
+  </article>
+
+</section>
+
+<section class="lower">
+
+  <div class="panel chart-panel">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Signal analytics / 03</div>
+        <h2>Download throughput</h2>
+      </div>
+      <span class="legend" id="chartStatus">No active test</span>
+    </div>
+    <canvas id="speedChart" aria-label="Live download throughput chart"></canvas>
+  </div>
+
+  <div class="panel history-panel">
+    <div class="section-head">
+      <div>
+        <div class="eyebrow">Session records / 04</div>
+        <h2>Recent test history</h2>
+      </div>
+      <button class="secondary" id="clearHistoryBtn">Clear</button>
+    </div>
+    <div class="history-list" id="historyList">
+      <div class="empty">Your completed tests will appear here.</div>
+    </div>
+  </div>
+
+</section>
+</main>
+
+<footer class="footer">
+  <span>© <span id="year"></span> NETRADAR · Browser-based diagnostics</span>
+  <span>Powered by JavaScript · <a href="https://www.cloudflare.com/" target="_blank" rel="noreferrer">Cloudflare</a></span>
+</footer>
+
+</div>
+
+<script>
+"use strict";
+
+const $ = id => document.getElementById(id);
+
+const URLS = {
+  ping: "https://www.cloudflare.com/cdn-cgi/trace",
+  download: "https://speed.cloudflare.com/__down?bytes=12000000",
+  upload: "https://speed.cloudflare.com/__up"
+};
+
+const STORAGE_KEY = "netradar-history-v1";
+
+let running = false;
+let samples = [];
+let historyItems = [];
+
+function format(value, digits = 1) {
+  if (!Number.isFinite(value)) return "—";
+  return value.toLocaleString("en-US", {
+    minimumFractionDigits: digits,
+    maximumFractionDigits: digits
+  });
+}
+
+function metric(id, value, unit) {
+  $(id).innerHTML = `${value} <small>${unit}</small>`;
+}
+
+function progress(value, label) {
+  const pct = Math.max(0, Math.min(100, value));
+  $("progressBar").style.width = pct + "%";
+  $("progressPct").textContent = Math.round(pct) + "%";
+  if (label) $("progressLabel").textContent = label.toUpperCase();
+}
+
+function phase(name, status) {
+  const el = $("phase" + name);
+  el.classList.remove("active", "done");
+  if (status) el.classList.add(status);
+}
+
+function setPhase(active) {
+  ["Ping", "Down", "Up"].forEach((name, index) => {
+    phase(name, index < active ? "done" : index === active ? "active" : "");
+  });
+}
+
+function updateOnline() {
+  const online = navigator.onLine;
+
+  $("onlineText").textContent = online ? "Network online" : "Offline";
+  $("networkStatus").textContent = online ? "Online" : "Offline";
+  $("onlineDot").style.background = online ? "var(--green)" : "var(--red)";
+  $("onlineDot").style.boxShadow = online
+    ? "0 0 12px var(--green)"
+    : "0 0 12px var(--red)";
+}
+
+function updateConnectionInfo() {
+  const connection =
+    navigator.connection ||
+    navigator.mozConnection ||
+    navigator.webkitConnection;
+
+  $("connectionType").textContent =
+    connection?.type || (navigator.onLine ? "Browser network" : "Offline");
+
+  $("effectiveType").textContent =
+    connection?.effectiveType || "Not supported";
+
+  $("downlinkEstimate").textContent =
+    Number.isFinite(connection?.downlink)
+      ? connection.downlink + " Mbps"
+      : "Not supported";
+
+  $("saveData").textContent =
+    typeof connection?.saveData === "boolean"
+      ? (connection.saveData ? "Enabled" : "Disabled")
+      : "Not exposed";
+}
+
+async function fetchWithTimeout(url, options = {}, timeout = 20000) {
+  const controller = new AbortController();
+  const timer = setTimeout(() => controller.abort(), timeout);
+
+  try {
+    return await fetch(url, {
+      ...options,
+      signal: controller.signal,
+      cache: "no-store"
+    });
+  } finally {
+    clearTimeout(timer);
+  }
+}
+
+/* Measure approximate round-trip request time. */
+async function testPing(count = 7) {
+  const values = [];
+
+  for (let i = 0; i < count; i++) {
+    const start = performance.now();
+
+    const response = await fetchWithTimeout(
+      URLS.ping + "?r=" + Math.random(),
+      { method: "GET" },
+      10000
+    );
+
+    if (!response.ok) {
+      throw new Error("Ping request failed: HTTP " + response.status);
+    }
+
+    await response.text();
+    values.push(performance.now() - start);
+
+    const average = values.reduce((sum, n) => sum + n, 0) / values.length;
+    metric("pingValue", format(average, 0), "ms");
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  const average = values.reduce((sum, n) => sum + n, 0) / values.length;
+  const differences = values.slice(1).map((value, index) =>
+    Math.abs(value - values[index])
+  );
+
+  const jitter = differences.length
+    ? differences.reduce((sum, n) => sum + n, 0) / differences.length
+    : 0;
+
+  return { ping: average, jitter };
+}
+
+/* Stream the response and estimate throughput while downloading. */
+async function testDownload() {
+  samples = [];
+  drawChart();
+
+  const start = performance.now();
+
+  const response = await fetchWithTimeout(
+    URLS.download + "&r=" + Math.random(),
+    {},
+    45000
+  );
+
+  if (!response.ok) {
+    throw new Error("Download failed: HTTP " + response.status);
+  }
+
+  if (!response.body || !response.body.getReader) {
+    const buffer = await response.arrayBuffer();
+    const seconds = (performance.now() - start) / 1000;
+    return (buffer.byteLength * 8 / 1000000) / seconds;
+  }
+
+  const reader = response.body.getReader();
+  let totalBytes = 0;
+  let previousBytes = 0;
+  let previousTime = start;
+
+  while (true) {
+    const result = await reader.read();
+    if (result.done) break;
+
+    totalBytes += result.value.byteLength;
+
+    const now = performance.now();
+
+    if (now - previousTime >= 200) {
+      const intervalSeconds = (now - previousTime) / 1000;
+      const intervalBytes = totalBytes - previousBytes;
+      const speed = (intervalBytes * 8 / 1000000) / intervalSeconds;
+
+      samples.push(speed);
+      samples = samples.slice(-45);
+      drawChart();
+
+      const elapsed = (now - start) / 1000;
+      const average = (totalBytes * 8 / 1000000) / elapsed;
+
+      metric("downloadValue", format(average, 1), "Mbps");
+      $("downloadFoot").textContent = "Live throughput";
+      $("radarCaption").textContent = "Receiving data · " + format(elapsed, 1) + " s";
+
+      previousBytes = totalBytes;
+      previousTime = now;
+    }
+  }
+
+  const elapsed = (performance.now() - start) / 1000;
+  return (totalBytes * 8 / 1000000) / elapsed;
+}
+
+/* Upload a generated 2 MB payload to the speed-test endpoint. */
+async function testUpload() {
+  const size = 2 * 1024 * 1024;
+  const payload = new Blob(
+    [new Uint8Array(size)],
+    { type: "application/octet-stream" }
+  );
+
+  const start = performance.now();
+
+  const response = await fetchWithTimeout(
+    URLS.upload + "?r=" + Math.random(),
+    {
+      method: "POST",
+      body: payload,
+      headers: { "Content-Type": "application/octet-stream" }
+    },
+    45000
+  );
+
+  if (!response.ok) {
+    throw new Error("Upload failed: HTTP " + response.status);
+  }
+
+  await response.text();
+
+  const seconds = (performance.now() - start) / 1000;
+  return (size * 8 / 1000000) / seconds;
+}
+
+/* Draw the throughput graph on a responsive canvas. */
+function drawChart() {
+  const canvas = $("speedChart");
+  const rect = canvas.getBoundingClientRect();
+  const dpr = window.devicePixelRatio || 1;
+
+  canvas.width = Math.max(1, Math.round(rect.width * dpr));
+  canvas.height = Math.max(1, Math.round(rect.height * dpr));
+
+  const ctx = canvas.getContext("2d");
+  ctx.scale(dpr, dpr);
+
+  const width = rect.width;
+  const height = rect.height;
+  const left = 35;
+  const right = 10;
+  const top = 15;
+  const bottom = 25;
+  const plotWidth = width - left - right;
+  const plotHeight = height - top - bottom;
+
+  ctx.clearRect(0, 0, width, height);
+  ctx.font = "10px sans-serif";
+  ctx.strokeStyle = "#24334a";
+  ctx.fillStyle = "#8295af";
+  ctx.lineWidth = 1;
+
+  const max = Math.max(10, ...samples) * 1.15;
+
+  for (let i = 0; i < 4; i++) {
+    const y = top + (plotHeight / 3) * i;
+
+    ctx.beginPath();
+    ctx.setLineDash([3, 5]);
+    ctx.moveTo(left, y);
+    ctx.lineTo(width - right, y);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    const label = i === 0 ? format(max, 0) :
+                  i === 3 ? "0" : format(max * (1 - i / 3), 0);
+
+    ctx.fillText(label, 2, y + 3);
+  }
+
+  if (!samples.length) {
+    ctx.textAlign = "center";
+    ctx.fillText("Run a test to generate live throughput data",
+      width / 2, height / 2);
+    ctx.textAlign = "left";
+    return;
+  }
+
+  const points = samples.map((speed, index) => ({
+    x: left + (samples.length === 1
+      ? plotWidth / 2
+      : index / (samples.length - 1) * plotWidth),
+    y: top + plotHeight - (speed / max) * plotHeight
+  }));
+
+  ctx.beginPath();
+  points.forEach((point, index) => {
+    if (index === 0) ctx.moveTo(point.x, point.y);
+    else ctx.lineTo(point.x, point.y);
+  });
+
+  ctx.strokeStyle = "#50e6ff";
+  ctx.lineWidth = 2.5;
+  ctx.stroke();
+
+  const gradient = ctx.createLinearGradient(0, top, 0, height);
+  gradient.addColorStop(0, "rgba(80,230,255,.24)");
+  gradient.addColorStop(1, "rgba(80,230,255,0)");
+
+  ctx.lineTo(points[points.length - 1].x, top + plotHeight);
+  ctx.lineTo(points[0].x, top + plotHeight);
+  ctx.closePath();
+  ctx.fillStyle = gradient;
+  ctx.fill();
+
+  ctx.fillStyle = "#50e6ff";
+  points.forEach(point => {
+    ctx.beginPath();
+    ctx.arc(point.x, point.y, 2.5, 0, Math.PI * 2);
+    ctx.fill();
+  });
+}
+
+function saveHistory(result) {
+  historyItems.unshift({
+    ...result,
+    date: new Date().toLocaleString("en-US", {
+      month: "short",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit"
+    })
+  });
+
+  historyItems = historyItems.slice(0, 5);
+
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(historyItems));
+  } catch (error) {
+    console.warn("Could not save test history.", error);
+  }
+
+  renderHistory();
+}
+
+function renderHistory() {
+  const list = $("historyList");
+  list.replaceChildren();
+
+  if (!historyItems.length) {
+    list.innerHTML = '<div class="empty">Your completed tests will appear here.</div>';
+    return;
+  }
+
+  historyItems.forEach(item => {
+    const row = document.createElement("div");
+    row.className = "history-item";
+
+    const left = document.createElement("div");
+    const date = document.createElement("div");
+    date.className = "history-date";
+    date.textContent = item.date;
+
+    const speed = document.createElement("div");
+    speed.className = "history-speed";
+    speed.textContent = format(item.down, 1) + " Mbps down";
+
+    left.append(date, speed);
+
+    const up = document.createElement("div");
+    up.className = "history-detail";
+    up.innerHTML = `<strong>${format(item.up, 1)}</strong>Mbps up`;
+
+    const ping = document.createElement("div");
+    ping.className = "history-detail";
+    ping.innerHTML = `<strong>${format(item.ping, 0)} ms</strong>Ping`;
+
+    row.append(left, up, ping);
+    list.append(row);
+  });
+}
+
+function loadHistory() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+    if (Array.isArray(saved)) historyItems = saved.slice(0, 5);
+  } catch {
+    historyItems = [];
+  }
+
+  renderHistory();
+}
+
+function resetResults() {
+  if (running) return;
+
+  metric("downloadValue", "—", "Mbps");
+  metric("uploadValue", "—", "Mbps");
+  metric("pingValue", "—", "ms");
+  metric("jitterValue", "—", "ms");
+
+  ["downloadFoot", "uploadFoot", "pingFoot", "jitterFoot"]
+    .forEach(id => $(id).textContent = "Waiting for test");
+
+  samples = [];
+  drawChart();
+  progress(0, "Test progress");
+  setPhase(-1);
+
+  $("radar").classList.remove("testing");
+  $("radarStatus").textContent = "SYSTEM READY";
+  $("radarCaption").textContent = "Ready to scan your network";
+  $("radarFoot").textContent = "Awaiting test";
+  $("chartStatus").textContent = "No active test";
+  $("lastTest").textContent = "Never";
+}
+
+async function runTest(pingOnly = false) {
+  if (running) return;
+
+  if (!navigator.onLine) {
+    $("radarStatus").textContent = "OFFLINE";
+    $("radarCaption").textContent = "Check your internet connection";
+    return;
+  }
+
+  running = true;
+  $("startBtn").disabled = true;
+  $("pingBtn").disabled = true;
+  $("startBtn").textContent = "TEST IN PROGRESS...";
+  $("radar").classList.add("testing");
+  $("radarStatus").textContent = "SCANNING";
+  $("radarCaption").textContent = "Preparing network diagnostics";
+  $("radarFoot").textContent = "Test in progress";
+
+  let ping;
+  let jitter;
+  let down;
+  let up;
+
+  try {
+    progress(5, "Measuring latency");
+    setPhase(0);
+
+    const pingResult = await testPing(pingOnly ? 5 : 7);
+    ping = pingResult.ping;
+    jitter = pingResult.jitter;
+
+    metric("pingValue", format(ping, 0), "ms");
+    metric("jitterValue", format(jitter, 1), "ms");
+
+    $("pingFoot").textContent =
+      ping < 40 ? "Excellent response" :
+      ping < 100 ? "Good response" : "High latency";
+
+    $("jitterFoot").textContent =
+      jitter < 10 ? "Stable connection" :
+      jitter < 25 ? "Some variation" : "High variation";
+
+    phase("Ping", "done");
+    progress(pingOnly ? 100 : 25, "Ping complete");
+
+    if (!pingOnly) {
+      setPhase(1);
+      progress(30, "Measuring download");
+      $("radarCaption").textContent = "Measuring download throughput";
+
+      down = await testDownload();
+      metric("downloadValue", format(down, 1), "Mbps");
+
+      $("downloadFoot").textContent =
+        down >= 100 ? "High-speed connection" :
+        down >= 25 ? "Good everyday speed" :
+        down >= 5 ? "Moderate speed" : "Low download speed";
+
+      phase("Down", "done");
+      progress(70, "Download complete");
+
+      setPhase(2);
+      progress(75, "Measuring upload");
+      $("radarCaption").textContent = "Measuring upload throughput";
+
+      up = await testUpload();
+      metric("uploadValue", format(up, 1), "Mbps");
+
+      $("uploadFoot").textContent =
+        up >= 20 ? "Fast upload" :
+        up >= 5 ? "Good upload" : "Limited upload";
+
+      phase("Up", "done");
+      progress(100, "Test complete");
+
+      saveHistory({ down, up, ping, jitter });
+    }
+
+    $("radarStatus").textContent = "SCAN COMPLETE";
+    $("radarCaption").textContent = pingOnly
+      ? "Latency check completed"
+      : "Network diagnostics completed successfully";
+
+    $("radarFoot").textContent = "Results updated";
+    $("chartStatus").textContent = samples.length + " samples";
+
+    $("lastTest").textContent = new Date().toLocaleTimeString("en-US", {
+      hour: "2-digit",
+      minute: "2-digit"
+    });
+
+  } catch (error) {
+    console.error(error);
+
+    $("radarStatus").textContent = "TEST INTERRUPTED";
+    $("radarCaption").textContent =
+      error.name === "AbortError"
+        ? "The test timed out. Please try again."
+        : "Request failed. Check connection or endpoint access.";
+
+    $("radarFoot").textContent = "Some results unavailable";
+
+    if (!Number.isFinite(ping)) $("pingFoot").textContent = "Test failed";
+    if (!Number.isFinite(down) && !pingOnly) $("downloadFoot").textContent = "Test failed";
+    if (!Number.isFinite(up) && !pingOnly) $("uploadFoot").textContent = "Test failed";
+
+  } finally {
+    running = false;
+    $("radar").classList.remove("testing");
+    $("startBtn").disabled = false;
+    $("pingBtn").disabled = false;
+    $("startBtn").textContent = "▶ START SPEED TEST";
+    updateConnectionInfo();
+  }
+}
+
+$("startBtn").addEventListener("click", () => runTest(false));
+$("pingBtn").addEventListener("click", () => runTest(true));
+$("resetBtn").addEventListener("click", resetResults);
+
+$("clearHistoryBtn").addEventListener("click", () => {
+  historyItems = [];
+  try { localStorage.removeItem(STORAGE_KEY); } catch {}
+  renderHistory();
+});
+
+window.addEventListener("online", updateOnline);
+window.addEventListener("offline", updateOnline);
+window.addEventListener("resize", drawChart);
+
+if (navigator.connection) {
+  navigator.connection.addEventListener?.("change", updateConnectionInfo);
+}
+
+function updateClock() {
+  $("clock").textContent = new Date().toLocaleTimeString("en-US", {
+    hour12: false
+  });
+}
+
+$("year").textContent = new Date().getFullYear();
+
+updateClock();
+setInterval(updateClock, 1000);
+
+updateOnline();
+updateConnectionInfo();
+loadHistory();
+drawChart();
+</script>
 </body>
 </html>
